@@ -6,7 +6,7 @@ To use the app, you create a category, add flashcards to it, and then open a cat
 
 The purpose of this app is to help students memorize concepts and definitions with a well-known study method while removing the need to carry physical cards. The phone becomes a portable, always-available study tool.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/jmeSUkWICDA)
 
 # Development Environment
 
