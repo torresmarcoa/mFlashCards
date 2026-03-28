@@ -12,12 +12,15 @@ import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-import type { Card, Category, Difficulty } from "../types";
+import type { Category, Difficulty } from "../types";
 import { addCard, getCategories, addCategory } from "../storage/storage";
 
 const difficulties: Difficulty[] = ["Easy", "Medium", "Hard"];
 
+// Screen for creating a new flashcard, including selecting/creating category and setting difficulty level.
 export default function CreateCardScreen({ navigation }: any) {
+  // State variables to manage form inputs for question, answer, difficulty, category selection, and modal visibility
+  // for category management.
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
@@ -32,6 +35,7 @@ export default function CreateCardScreen({ navigation }: any) {
   const [createCategoryModalVisible, setCreateCategoryModalVisible] =
     useState(false);
 
+  // Load categories on component mount to populate category selection options.
   useEffect(() => {
     async function loadCategories() {
       const data = await getCategories();
@@ -46,6 +50,8 @@ export default function CreateCardScreen({ navigation }: any) {
     loadCategories();
   }, []);
 
+  // Handles the creation of a new flashcard by validating inputs and saving it to storage,
+  // then navigating back to the previous screen.
   const handleCreateCard = async () => {
     if (!difficulty || !selectedCategory) return;
 
@@ -61,6 +67,8 @@ export default function CreateCardScreen({ navigation }: any) {
     navigation.goBack();
   };
 
+  // Handles the creation of a new category, updates the category list, and sets the newly created
+  // category as selected.
   const handleCreateCategory = async () => {
     if (!newCategory.trim()) return;
 

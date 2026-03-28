@@ -6,6 +6,7 @@ import { Pressable, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+// Main screen for the app, gives the user options to interact with the flashcards. Create and view flashcards.
 export default function HomeScreen({ navigation }: any) {
   return (
     <LinearGradient

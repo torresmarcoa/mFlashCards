@@ -2,8 +2,10 @@
 import * as Crypto from "expo-crypto";
 import type { FlashcardData, Card, Category } from "../types";
 
+// Storage Key for AsyncStorage to store all flashcard data under a single key.
 const STORAGE_KEY = "@mflashcards:data";
 
+// Seed data, default categories and cards to initialize the app with if no existing data is found in storage.
 const defaultData: FlashcardData = {
   categories: [{ id: "8e678bad-aa70-46ca-8054-cc8231d9f1db", name: "General" }],
   cards: [
@@ -17,8 +19,11 @@ const defaultData: FlashcardData = {
   ],
 };
 
+// Creates a unique ID using the Crypto API, used for generating IDs for new cards and categories.
 const createId = (): string => Crypto.randomUUID();
 
+// Initializes the storage by checking if data already exists under the defined STORAGE_KEY, and if not,
+// it sets the default data.
 export const initStorage = async () => {
   try {
     const existing = await AsyncStorage.getItem(STORAGE_KEY);
@@ -31,6 +36,8 @@ export const initStorage = async () => {
   }
 };
 
+// Retrieves all flashcard data (categories and cards) from storage, returning the default data if
+// no data is found or if an error occurs.
 export const getData = async (): Promise<FlashcardData> => {
   try {
     const json = await AsyncStorage.getItem(STORAGE_KEY);
@@ -46,6 +53,7 @@ export const getData = async (): Promise<FlashcardData> => {
   }
 };
 
+// Saves the provided flashcard data (categories and cards) to storage under the defined STORAGE_KEY.
 const saveData = async (data: FlashcardData) => {
   try {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -54,9 +62,11 @@ const saveData = async (data: FlashcardData) => {
   }
 };
 
+// Retrieves all cards from storage, returning an empty array if an error occurs.
 export const getCards = async (): Promise<Card[]> => {
   try {
     const data = await getData();
+
     return data.cards;
   } catch (error) {
     console.error("Error retrieving card data:", error);
@@ -64,6 +74,8 @@ export const getCards = async (): Promise<Card[]> => {
   return [];
 };
 
+// Adds a new card to storage by first retrieving existing data, checking for duplicate IDs, and then saving
+// the updated data with the new card included.
 export const addCard = async (card: Omit<Card, "id"> & { id?: string }) => {
   try {
     const data = await getData();
@@ -83,6 +95,7 @@ export const addCard = async (card: Omit<Card, "id"> & { id?: string }) => {
   }
 };
 
+// Retrieves all categories from storage, returning an empty array if an error occurs.
 export const getCategories = async (): Promise<Category[]> => {
   try {
     const data = await getData();
@@ -93,8 +106,10 @@ export const getCategories = async (): Promise<Category[]> => {
   return [];
 };
 
+// Adds a new category to storage by first retrieving existing data, checking for duplicate IDs, and then saving
+// the updated data with the new category included.
 export const addCategory = async (
-  category: Omit<Category, "id"> & { id?: string }
+  category: Omit<Category, "id"> & { id?: string },
 ) => {
   try {
     const data = await getData();
